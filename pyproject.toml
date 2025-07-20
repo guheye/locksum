@@ -34,6 +34,7 @@ dev = [
     "hypothesis",
     "bandit==1.7.5",
     "pip-audit",
+    "setuptools>=80.0.0",
     "mkdocs-material",
     "mkdocstrings[python]",
     "pynacl>=1.5.0",
