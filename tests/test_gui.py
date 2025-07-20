@@ -29,4 +29,4 @@ def test_gui_smoke():  # noqa: D401
     view = MainView(root)
     assert view.root is root
 
-    root.destroy() 
+    root.destroy()

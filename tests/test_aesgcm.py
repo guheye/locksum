@@ -65,4 +65,4 @@ def test_clear_runtime_secrets(_tmp_env):
     model.clear_runtime_secrets()
 
     with pytest.raises(RuntimeError):
-        _ = model.keys.sym_key 
+        _ = model.keys.sym_key

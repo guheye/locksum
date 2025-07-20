@@ -41,4 +41,4 @@ def test_export_then_import_roundtrip(tmp_path):
     model.derive_fernet_key(passcode, salt)
     imported = model.load_encrypted_data()
 
-    assert imported == entries 
+    assert imported == entries

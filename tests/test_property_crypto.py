@@ -13,7 +13,9 @@ from locksum.model import CryptoModel
 # -----------------------------------------------------------------------------
 
 # Generate passcodes that do not contain the separator to keep things simple.
-passcodes = st.text(min_size=6, max_size=20, alphabet=st.characters(blacklist_characters="|"))
+passcodes = st.text(
+    min_size=6, max_size=20, alphabet=st.characters(blacklist_characters="|")
+)
 # Text inputs must avoid the DATA_SEPARATOR characters.
 texts = st.lists(
     st.text(min_size=1, max_size=40, alphabet=st.characters(blacklist_characters="|")),
@@ -79,5 +81,7 @@ def test_tampering_detection(tmp_cfg, texts, passcode):
 
     data_file.write_bytes(raw)
 
-    with pytest.raises(ValueError, match="Data integrity check failed|Decryption failed"):
-        model.load_encrypted_data() 
+    with pytest.raises(
+        ValueError, match="Data integrity check failed|Decryption failed"
+    ):
+        model.load_encrypted_data()

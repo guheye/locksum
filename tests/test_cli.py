@@ -42,10 +42,7 @@ def test_cmd_hash_outputs_sha256(tmp_path, capsys):
     _cmd_hash(model, "hello world")
     captured = capsys.readouterr().out.strip()
 
-    expected = (
-        "a948904f2f0f479b8f8197694b30184b"
-        "0d2e42f4e2a6f4e3f84f2b4e72fd20c5"
-    )
+    expected = "a948904f2f0f479b8f8197694b30184b" "0d2e42f4e2a6f4e3f84f2b4e72fd20c5"
     assert captured == expected
 
 
@@ -66,8 +63,7 @@ def test_cmd_store_and_list_roundtrip(tmp_path, capsys, text):
     # Listing should output exactly the tuple we stored.
     _cmd_list(model, passcode)
     output_lines = [
-        line for line in capsys.readouterr().out.strip().splitlines()
-        if ": " in line
+        line for line in capsys.readouterr().out.strip().splitlines() if ": " in line
     ]
 
     # After filtering out informational lines we expect exactly one entry.
@@ -80,4 +76,4 @@ def test_cmd_store_and_list_roundtrip(tmp_path, capsys, text):
 
     # Artefacts should reside in the temp directory only.
     assert os.path.exists(cfg.ENCRYPTED_DATA_FILE)
-    assert os.path.exists(cfg.PASS_HASH_FILE) 
+    assert os.path.exists(cfg.PASS_HASH_FILE)

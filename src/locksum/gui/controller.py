@@ -76,6 +76,7 @@ class Controller:
         salt = self.model.get_salt()
         self.model.derive_fernet_key(passcode, salt)
         from ..securemem import secure_erase
+
         secure_erase(pass_buf)
         self.stored_data = []
         self.model.save_encrypted_data(self.stored_data)
@@ -93,6 +94,7 @@ class Controller:
             messagebox.showerror("Login Failed", "Invalid passcode.")
             self.view.passcode_entry.delete(0, tk.END)
             from ..securemem import secure_erase
+
             secure_erase(pass_buf)
             return
 
@@ -109,6 +111,7 @@ class Controller:
             messagebox.showerror("Login Failed", str(e))
             self.view.passcode_entry.delete(0, tk.END)
             from ..securemem import secure_erase
+
             secure_erase(pass_buf)
 
     def generate_hash(self) -> None:

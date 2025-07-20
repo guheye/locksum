@@ -63,7 +63,9 @@ class CryptoModel:
         """Loads or creates the salt for key derivation."""
         return self._load_or_create_key(config.DEFAULT_SALT_FILE, config.SALT_BYTES)
 
-    def derive_fernet_key(self, passcode: str, salt: bytes, *, algorithm: str | None = None):  # noqa: D401, E501
+    def derive_fernet_key(
+        self, passcode: str, salt: bytes, *, algorithm: str | None = None
+    ):  # noqa: D401, E501
         """Derive both encryption *and* integrity keys in a single step."""
         self.keys.derive_fernet_key(passcode, salt, algorithm=algorithm)
         # Inject the freshly derived integrity key **only** if one has not been
@@ -75,7 +77,9 @@ class CryptoModel:
             self.integrity.set_key(self.keys.hmac_key)
         # Persist the algorithm choice for header generation.  Fall back to the
         # key-manager's current setting if *algorithm* is ``None``.
-        self._current_kdf = (algorithm or self.keys._current_kdf)  # pylint: disable=protected-access
+        self._current_kdf = (
+            algorithm or self.keys._current_kdf
+        )  # pylint: disable=protected-access
 
     def hash_new_passcode(self, passcode: str) -> None:
         """Hashes a new passcode with Argon2 and stores it."""

@@ -21,4 +21,4 @@ if str(ROOT_DIR) not in sys.path:
 # mode yet.
 SRC_DIR = ROOT_DIR / "src"
 if SRC_DIR.exists() and str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR)) 
+    sys.path.insert(0, str(SRC_DIR))

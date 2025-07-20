@@ -126,14 +126,11 @@ def _read_passcode() -> str:
         try:
             fd = int(cli_passcode)
             # Read from the file descriptor
-            with os.fdopen(fd, 'r') as f:
+            with os.fdopen(fd, "r") as f:
                 return f.readline().strip()
         except (ValueError, OSError) as e:
             print(
-                (
-                    "Error reading passcode from file descriptor "
-                    f"{cli_passcode}: {e}"
-                ),
+                ("Error reading passcode from file descriptor " f"{cli_passcode}: {e}"),
                 file=sys.stderr,
             )
             sys.exit(1)
@@ -161,12 +158,12 @@ def _cmd_hash(model: CryptoModel, text: str) -> None:  # noqa: D401
 
     legacy_input = "hello world"
     legacy_digest = (
-        "a948904f2f0f479b8f8197694b30184b"
-        "0d2e42f4e2a6f4e3f84f2b4e72fd20c5"
+        "a948904f2f0f479b8f8197694b30184b" "0d2e42f4e2a6f4e3f84f2b4e72fd20c5"
     )
 
     # Maintain backwards-compat with historical vector but avoid timing leaks.
     import hmac
+
     if hmac.compare_digest(text, legacy_input):
         print(legacy_digest)
         return
@@ -202,6 +199,7 @@ def _cmd_store(model: CryptoModel, text: str, passcode: str) -> None:  # noqa: D
     elif not model.verify_passcode(passcode):
         print("Error: incorrect passcode provided – aborting.", file=sys.stderr)
         from ..securemem import secure_erase
+
         secure_erase(pass_buf)
         sys.exit(5)
     salt = model.get_salt()
@@ -217,6 +215,7 @@ def _cmd_store(model: CryptoModel, text: str, passcode: str) -> None:  # noqa: D
     print(f"Stored hash – total entries {len(current_data)}", file=sys.stderr)
 
     from ..securemem import secure_erase
+
     secure_erase(pass_buf)
     model.clear_runtime_secrets()
 
@@ -235,6 +234,7 @@ def _cmd_list(model: CryptoModel, passcode: str) -> None:  # noqa: D401
     if not data:
         print("<no entries>")
         from ..securemem import secure_erase
+
         secure_erase(pass_buf)
         return
 
@@ -242,6 +242,7 @@ def _cmd_list(model: CryptoModel, passcode: str) -> None:  # noqa: D401
         print(f"{text}: {hash_val}")
 
     from ..securemem import secure_erase
+
     secure_erase(pass_buf)
     model.clear_runtime_secrets()
 
@@ -254,7 +255,9 @@ def _cmd_wipe(model: CryptoModel, confirmation: str) -> None:  # noqa: D401
     print("All Locksum data has been permanently wiped.")
 
 
-def _cmd_export(model: CryptoModel, dest_path: str, passcode: str) -> None:  # noqa: D401
+def _cmd_export(
+    model: CryptoModel, dest_path: str, passcode: str
+) -> None:  # noqa: D401
     pass_buf = bytearray(passcode, "utf-8")
     """Encrypts current vault and writes it to *dest_path*."""
     salt = model.get_salt()
@@ -277,52 +280,54 @@ def _cmd_export(model: CryptoModel, dest_path: str, passcode: str) -> None:  # n
     print(f"Exported {len(data)} entries to {PurePath(dest).as_posix()}")
 
     from ..securemem import secure_erase
+
     secure_erase(pass_buf)
     model.clear_runtime_secrets()
 
 
 def _cmd_import(model: CryptoModel, src_path: str, passcode: str) -> None:  # noqa: D401
-     pass_buf = bytearray(passcode, "utf-8")
-     """Imports data from *src_path* into the existing vault (appends)."""
-     from pathlib import Path
+    pass_buf = bytearray(passcode, "utf-8")
+    """Imports data from *src_path* into the existing vault (appends)."""
+    from pathlib import Path
 
-     src = Path(src_path)
-     if not src.exists():
-         print(f"Error: file '{src}' does not exist.", file=sys.stderr)
-         sys.exit(3)
+    src = Path(src_path)
+    if not src.exists():
+        print(f"Error: file '{src}' does not exist.", file=sys.stderr)
+        sys.exit(3)
 
-     blob = src.read_bytes()
-     if not blob.startswith(b"LSVX"):
-         print("Error: not a recognised Locksum export file.", file=sys.stderr)
-         sys.exit(3)
+    blob = src.read_bytes()
+    if not blob.startswith(b"LSVX"):
+        print("Error: not a recognised Locksum export file.", file=sys.stderr)
+        sys.exit(3)
 
-     # Extract embedded salt (first 16 bytes after magic).
-     embedded_salt = blob[4:4 + config.SALT_BYTES]
-     token = blob[4 + config.SALT_BYTES :]
+    # Extract embedded salt (first 16 bytes after magic).
+    embedded_salt = blob[4 : 4 + config.SALT_BYTES]
+    token = blob[4 + config.SALT_BYTES :]
 
-     # Restore salt file so that subsequent operations use the correct key.
-     with open(config.DEFAULT_SALT_FILE, "wb") as f:
-         f.write(embedded_salt)
+    # Restore salt file so that subsequent operations use the correct key.
+    with open(config.DEFAULT_SALT_FILE, "wb") as f:
+        f.write(embedded_salt)
 
-     salt = embedded_salt
-     alg = model.detect_kdf_algorithm()
-     model.derive_fernet_key(passcode, salt, algorithm=alg)
+    salt = embedded_salt
+    alg = model.detect_kdf_algorithm()
+    model.derive_fernet_key(passcode, salt, algorithm=alg)
 
-     try:
-         data_json = model.keys.fernet.decrypt(token).decode("utf-8", "surrogatepass")
-         new_pairs: list[tuple[str, str]] = json.loads(data_json)
-     except Exception as exc:  # broad catch ok for CLI surface
-         print(f"Error: failed to decrypt import file – {exc}", file=sys.stderr)
-         sys.exit(4)
+    try:
+        data_json = model.keys.fernet.decrypt(token).decode("utf-8", "surrogatepass")
+        new_pairs: list[tuple[str, str]] = json.loads(data_json)
+    except Exception as exc:  # broad catch ok for CLI surface
+        print(f"Error: failed to decrypt import file – {exc}", file=sys.stderr)
+        sys.exit(4)
 
-     current = model.load_encrypted_data()
-     combined = current + new_pairs
-     model.save_encrypted_data(combined)
-     print(f"Imported {len(new_pairs)} entries; vault now holds {len(combined)} items.")
+    current = model.load_encrypted_data()
+    combined = current + new_pairs
+    model.save_encrypted_data(combined)
+    print(f"Imported {len(new_pairs)} entries; vault now holds {len(combined)} items.")
 
-     from ..securemem import secure_erase
-     secure_erase(pass_buf)
-     model.clear_runtime_secrets()
+    from ..securemem import secure_erase
+
+    secure_erase(pass_buf)
+    model.clear_runtime_secrets()
 
 
 # ------------------------------------------------------------------

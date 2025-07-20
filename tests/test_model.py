@@ -38,10 +38,7 @@ class TestCryptoModel:
 
     def test_sha256_hash(self, crypto_model: CryptoModel):
         """The SHA-256 hash of 'hello' is well-known and should be consistent."""
-        expected = (
-            "2cf24dba5fb0a30e26e83b2ac5b9e29e"
-            "1b161e5c1fa7425e73043362938b9824"
-        )
+        expected = "2cf24dba5fb0a30e26e83b2ac5b9e29e" "1b161e5c1fa7425e73043362938b9824"
         assert crypto_model.sha256_hash("hello") == expected
 
     def test_key_creation_and_loading(self, crypto_model: CryptoModel):

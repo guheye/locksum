@@ -345,7 +345,9 @@ class VaultStore:  # noqa: D101
                     nonce,
                     ciphertext,
                     None,
-                ).decode("utf-8", "surrogatepass")  # noqa: E501
+                ).decode(
+                    "utf-8", "surrogatepass"
+                )  # noqa: E501
             except Exception as err:  # broad: covers InvalidTag, etc.
                 raise ValueError(
                     "Decryption failed. Invalid passcode or tampered data."

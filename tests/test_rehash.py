@@ -45,4 +45,4 @@ def test_argon2_auto_rehash(tmp_path):
     assert upgraded_hash != original_hash
 
     # And it should now meet policy (no rehash needed).
-    assert model.pass_hasher.check_needs_rehash(upgraded_hash) is False 
+    assert model.pass_hasher.check_needs_rehash(upgraded_hash) is False

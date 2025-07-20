@@ -108,6 +108,7 @@ def safe_remove(path: str | Path) -> None:  # noqa: D401
     except FileNotFoundError:  # pragma: no cover – already absent
         pass
 
+
 # -----------------------------------------------------------------------------
 # Key-derivation defaults
 # -----------------------------------------------------------------------------

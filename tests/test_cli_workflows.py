@@ -60,4 +60,4 @@ def test_change_passcode_flow(monkeypatch, _cli_env):
         bad = CryptoModel()
         salt_bad = bad.get_salt()
         bad.derive_fernet_key(old_pass, salt_bad)
-        bad.load_encrypted_data() 
+        bad.load_encrypted_data()
