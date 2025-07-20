@@ -71,6 +71,7 @@ ignore_missing_imports = true
 disable_error_code = ["union-attr", "assignment", "index"]
 
 warn_unused_configs = true
+exclude = ["build/", "dist/", "locksum\.egg-info/"]
 
 [tool.setuptools.packages.find]
 where = ["src"] 
