@@ -255,9 +255,7 @@ def _cmd_wipe(model: CryptoModel, confirmation: str) -> None:  # noqa: D401
     print("All Locksum data has been permanently wiped.")
 
 
-def _cmd_export(
-    model: CryptoModel, dest_path: str, passcode: str
-) -> None:  # noqa: D401
+def _cmd_export(model: CryptoModel, dest_path: str, passcode: str) -> None:  # noqa: D401
     pass_buf = bytearray(passcode, "utf-8")
     """Encrypts current vault and writes it to *dest_path*."""
     salt = model.get_salt()
