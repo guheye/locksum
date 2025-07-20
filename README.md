@@ -4,6 +4,7 @@
 
 ![CI](https://github.com/guheye/locksum/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)
+![PyPI](https://img.shields.io/pypi/v/locksum.svg)
 
 ---
 
@@ -28,9 +29,13 @@ chmod +x locksum*
 ./locksum hash "hello world"
 ```
 
-### 2 · Python package
+### 2 · Python package → **from PyPI**
 ```bash
 python -m pip install locksum
+#                     ^ pulls the latest release from PyPI
+```
+
+```bash
 echo "My$tr0ngP@ss" | locksum store "secret"
 ```
 
