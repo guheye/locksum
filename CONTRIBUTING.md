@@ -26,6 +26,22 @@ $ pytest -q             # run full test-suite (≈90 % coverage)
 4. Ensure CI passes.  GitHub Actions will run lint, tests, type-checking and security scans.
 5. Submit the PR – we squash-merge once approvals & green CI are in place.
 
+## Release process (maintainers)
+
+1. Bump `version` in `pyproject.toml` and update `CHANGELOG.md`.
+2. Run:
+
+   ```bash
+   python -m pip install --upgrade build twine
+   python -m build
+   twine upload dist/* -u __token__ -p "$PYPI_API_TOKEN"
+   ```
+
+   The token is an *API token* generated on PyPI and stored as `PYPI_API_TOKEN`.
+   For test runs use `--repository testpypi` and a token from https://test.pypi.org.
+3. Create a git tag (`git tag vX.Y.Z && git push --tags`).
+4. CI builds binaries and attaches them to the GitHub release.
+
 ## Coding Standards
 
 * Keep functions <50 LOC where reasonable.
