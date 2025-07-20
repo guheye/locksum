@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "locksum"
+version = "1.0.0"
+description = "A secure SHA-256 hash generator with encrypted storage."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Security :: Cryptography",
+]
+
+dependencies = [
+    "cryptography>=42.0.0",
+    "ttkbootstrap>=1.5.1",
+    "argon2-cffi>=21.3.0",
+    "zxcvbn-python>=4.4.24",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "ruff==0.4.1",
+    "mypy==1.10.0",
+    "pre-commit",
+    "hypothesis",
+    "bandit==1.7.5",
+    "pip-audit",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "pynacl>=1.5.0",
+]
+
+packaging = [
+    "pyinstaller",
+]
+
+[project.scripts]
+locksum = "locksum.launcher:main"
+locksum-gui = "locksum.gui.__main__:main"
+locksum-cli = "locksum.cli:main"
+
+[tool.ruff]
+line-length = 88
+exclude = ["tests/*", ".venv/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double" 
+
+[tool.mypy]
+python_version = "3.11"
+
+# Third-party libraries used by Locksum do not ship type hints. This flag
+# prevents the CI pipeline from failing while still validating our own code.
+ignore_missing_imports = true
+
+# Suppress noisy union-attr & assignment issues that stem from dynamic GUI wiring
+# and optional callback parameters.
+disable_error_code = ["union-attr", "assignment", "index"]
+
+warn_unused_configs = true
+
+[tool.setuptools.packages.find]
+where = ["src"] 

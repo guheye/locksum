@@ -1,0 +1,20 @@
+site_name: Locksum Documentation
+site_url: https://guheye.github.io/locksum
+repo_url: https://github.com/guheye/locksum
+
+theme:
+  name: material
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [".."]
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Threat Model: threat_model.md
+  - Vault Format: vault_format.md
+  - API Reference: api_reference.md 
