@@ -17,12 +17,15 @@ artifacts live outside the repo (useful for tests/production)."""
 # working tree avoids accidental commits of secret artefacts and aligns with common
 # XDG-style conventions.
 
+
 _env_dir = os.getenv("LOCKSUM_DATA_DIR")
 
 if _env_dir:
-    DATA_DIR: Final[Path] = Path(_env_dir).expanduser().resolve()
+    _data_dir = Path(_env_dir).expanduser().resolve()
 else:
-    DATA_DIR: Final[Path] = (Path.home() / ".locksum").resolve()
+    _data_dir = (Path.home() / ".locksum").resolve()
+
+DATA_DIR: Final[Path] = _data_dir
 
 # Ensure the path exists so subsequent open() calls do not fail.  This is safe at
 # import-time because the directory is user-specific and requires no elevated

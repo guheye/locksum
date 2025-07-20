@@ -30,7 +30,7 @@ from typing import Final
 try:
     from nacl.bindings import sodium_memzero  # type: ignore
 
-    _SODIUM_AVAILABLE: Final[bool] = True
+    _SODIUM_AVAILABLE: bool = True
 except (
     ModuleNotFoundError,
     ImportError,
