@@ -31,7 +31,11 @@ try:
     from nacl.bindings import sodium_memzero  # type: ignore
 
     _SODIUM_AVAILABLE: Final[bool] = True
-except (ModuleNotFoundError, ImportError, AttributeError):  # pragma: no cover – optional dep
+except (
+    ModuleNotFoundError,
+    ImportError,
+    AttributeError,
+):  # pragma: no cover – optional dep
     _SODIUM_AVAILABLE = False
 
 
