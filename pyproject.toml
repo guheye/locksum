@@ -28,7 +28,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "black",
-    "ruff==0.4.1",
+    "ruff==0.12.4",
     "mypy==1.10.0",
     "pre-commit",
     "hypothesis",
