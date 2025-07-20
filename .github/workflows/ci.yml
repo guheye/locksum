@@ -110,7 +110,14 @@ jobs:
 
       - name: Build CLI binary
         run: |
-          pyinstaller -F -m locksum.cli -n locksum-cli
+          # PyInstaller ≥6 requires an explicit *script* path – the older
+          # “-m module” form now conflicts with the Windows manifest flag.
+          # We point it at the project’s CLI entry-point file inside the repo.
+          #
+          # "--collect-submodules locksum" ensures dynamic imports (e.g.
+          # ttkbootstrap themes) are packaged without having to chase them
+          # down one-by-one in future releases.
+          pyinstaller -F --collect-submodules locksum -n locksum-cli src/locksum/cli/__main__.py
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4
