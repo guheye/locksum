@@ -1,9 +1,9 @@
 # Locksum – Secure Hash Generator & Encrypted Vault
 
-> Cross-platform CLI + GUI for repeatable SHA-256 hashes, protected by a **Fernet-encrypted** vault (AES-CBC + HMAC). 100 % offline. 95 % test-coverage. AES-GCM support is already available via the experimental `LSV2` format (set `LOCKSUM_VAULT_VERSION=LSV2`).
+> Cross-platform CLI + GUI for repeatable SHA-256 hashes, protected by a **Fernet-encrypted** vault (AES-CBC + HMAC). 100 % offline. 80 %+ test-coverage (CI-enforced). AES-GCM support is already available via the experimental `LSV2` format (set `LOCKSUM_VAULT_VERSION=LSV2`).
 
 ![CI](https://github.com/guheye/locksum/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-80%25-brightgreen)
 ![PyPI](https://img.shields.io/pypi/v/locksum.svg)
 
 ---
@@ -122,7 +122,7 @@ Full analysis in [`docs/threat_model.md`](docs/threat_model.md).
 ---
 
 ## 🧪 Testing & CI
-* **Unit tests** (>95 % coverage) run on 3.11 & 3.12.  
+* **Unit tests** (>80 % coverage) run on 3.11 & 3.12.  
 * **Property tests** (Hypothesis) fuzz random passcodes/KDFs.  
 * **GUI smoke-test** ensures widgets wire correctly on headless Xvfb.  
 * **DevSecOps** – Ruff lint, Black format, Mypy types, Bandit static-analysis, Gitleaks secret scan, pip-audit SCA, CycloneDX SBOM.
