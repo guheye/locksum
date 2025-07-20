@@ -2,18 +2,18 @@
 
 ```mermaid
 graph TD;
-  subgraph GUI
-    V[View (tkinter)] --> Ctlr[Controller]
+  subgraph "GUI"
+    V["View (tkinter)"] --> Ctlr["Controller"]
   end
-  subgraph Core
-    Ctlr --> M[CryptoModel]
-    M --> KM[KeyManager]
-    M --> VS[VaultStore]
-    M --> IC[IntegrityChecker]
+  subgraph "Core"
+    Ctlr --> M["CryptoModel"]
+    M --> KM["KeyManager"]
+    M --> VS["VaultStore"]
+    M --> IC["IntegrityChecker"]
   end
-  KM -->|derive_key| FK[Fernet / AES Key]
-  VS -->|encrypt/decrypt| FK
-  IC -->|HMAC/GCM tag| VS
+  KM -->|"derive_key"| FK(("Fernet / AES Key"))
+  VS -->|"encrypt/decrypt"| FK
+  IC -->|"HMAC/GCM tag"| VS
 ``` 
 
 * **KeyManager** – Argon2-id hasher + KDF wrappers; owns the symmetric key used for Fernet (`LSV1`) and AES-256-GCM (`LSV2`).  

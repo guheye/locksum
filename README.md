@@ -85,18 +85,18 @@ Notes:
 ## 🏗️ Architecture
 ```mermaid
 graph TD;
-  subgraph GUI
-    A[View (tkinter)] --> B[Controller]
+  subgraph "GUI"
+    A["View (tkinter)"] --> B["Controller"]
   end
-  subgraph Core
-    B --> C[CryptoModel]
-    C --> KM[KeyManager]
-    C --> VS[VaultStore]
-    C --> IC[IntegrityChecker]
+  subgraph "Core"
+    B --> C["CryptoModel"]
+    C --> KM["KeyManager"]
+    C --> VS["VaultStore"]
+    C --> IC["IntegrityChecker"]
   end
-  KM -->|derive_key| F[(Fernet Key)]
-  VS -->|encrypt/decrypt| F
-  IC -->|HMAC| VS
+  KM -->|"derive_key"| F(("Fernet Key"))
+  VS -->|"encrypt/decrypt"| F
+  IC -->|"HMAC"| VS
 ```
 
 * **KeyManager** – Argon2-id hasher + KDF wrappers, owns the Fernet / AES key.  
